@@ -10,6 +10,8 @@ type RefundService struct {
 	client *Client
 }
 
+// A Refund is a refund of a Debit transaction. The amount of the refund may be
+// any value up to the amount of the original Debit.
 type Refund struct {
 	Amount            int               `json:"amount,omitempty"`
 	Description       string            `json:"description,omitempty"`

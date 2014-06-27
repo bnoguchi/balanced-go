@@ -11,57 +11,28 @@ type CardService struct {
 }
 
 type Card struct {
-	// Expiration month (e.g., 1 for January); required
-	ExpirationMonth int `json:"expiration_month"`
+	ExpirationMonth int    `json:"expiration_month"` // Expiration month (e.g., 1 for January); required
+	ExpirationYear  int    `json:"expiration_year"`  // Expiration year; required
+	Number          string `json:"number"`           // The digits of the credit card number; required
+	*Address        `json:"address,omitempty"`
+	Customer        string            `json:"customer,omitempty"` // The customer this card is associated to
+	Cvv             string            `json:"cvv,omitempty"`      // The 3-4 digit security code for the card
+	Name            string            `json:"name,omitempty"`     // The customer's name on card
+	AvsPostalMatch  interface{}       `json:"avs_postal_match,omitempty"`
+	AvsResult       interface{}       `json:"avs_result,omitempty"`
+	AvsStreetMatch  interface{}       `json:"avs_street_match,omitempty"`
+	Brand           string            `json:"brand,omitempty"`      // e.g., "MasterCard"
+	CvvMatch        string            `json:"cvv_match,omitempty"`  // e.g., "yes"
+	CvvResult       string            `json:"cvv_result,omitempty"` // e.g., "Match"
+	Fingerprint     string            `json:"fingerprint,omitempty"`
+	Meta            map[string]string `json:"meta,omitempty"`
+	Href            string            `json:"href,omitempty"` // e.g., "/cards/CC2t9628l4ecJics6T8RuLPf"
+	Id              string            `json:"id,omitempty"`
+	Links           *CardLinks        `json:"links,omitempty"`
+	IsVerified      bool              `json:"is_verified,omitempty"`
+	CreatedAt       *time.Time        `json:"created_at,omitempty"`
+	UpdatedAt       *time.Time        `json:"updated_at,omitempty"`
 
-	// Expiration year; required
-	ExpirationYear int `json:"expiration_year"`
-
-	// The digits of the credit card number; required
-	Number string `json:"number"`
-
-	*Address `json:"address,omitempty"`
-
-	// The customer this card is associated to
-	Customer string `json:"customer,omitempty"`
-
-	// The 3-4 digit security code for the card
-	Cvv string `json:"cvv,omitempty"`
-
-	// The customer's name on card
-	Name string `json:"name,omitempty"`
-
-	AvsPostalMatch interface{} `json:"avs_postal_match,omitempty"`
-
-	AvsResult interface{} `json:"avs_result,omitempty"`
-
-	AvsStreetMatch interface{} `json:"avs_street_match,omitempty"`
-
-	// e.g., "MasterCard"
-	Brand string `json:"brand,omitempty"`
-
-	// e.g., "yes"
-	CvvMatch string `json:"cvv_match,omitempty"`
-
-	// e.g., "Match"
-	CvvResult string `json:"cvv_result,omitempty"`
-
-	Fingerprint string `json:"fingerprint,omitempty"`
-
-	Meta map[string]string `json:"meta,omitempty"`
-
-	// e.g., "/cards/CC2t9628l4ecJics6T8RuLPf"
-	Href string `json:"href,omitempty"`
-
-	Id string `json:"id,omitempty"`
-
-	// e.g., "customer" => null
-	Links map[string]string `json:"links,omitempty"`
-
-	IsVerified bool `json:"is_verified,omitempty"`
-
-	CreatedAt *time.Time `json:"created_at,omitempty"`
-	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 }
 
 type CardResponse struct {

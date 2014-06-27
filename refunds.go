@@ -28,14 +28,14 @@ type Refund struct {
 
 type RefundLinks struct {
 	Debit   string `json:"debit"`
-	Dispute string `json:"dispute,omitempty"`
-	Order   string `json:"order,omitempty"`
+	Dispute string `json:"dispute"`
+	Order   string `json:"order"`
 }
 
 type RefundResponse struct {
 	Refunds []Refund               `json:"refunds"`
 	Links   *RefundResponseLinks   `json:"links"`
-	Meta    map[string]interface{} `json:"meta,omitempty"`
+	Meta    map[string]interface{} `json:"meta"`
 }
 
 type RefundResponseLinks struct {

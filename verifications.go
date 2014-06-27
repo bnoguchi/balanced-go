@@ -25,37 +25,30 @@ type VerificationService struct {
 }
 
 type Verification struct {
-	// e.g., 0
-	Attempts int `json:"attempts"`
+	Attempts           int                `json:"attempts"`           // e.g., 0
+	AttemptsRemaining  int                `json:"attempts_remaining"` // e.g., 3
+	DepositStatus      string             `json:"deposit_status"`     // e.g., "succeeded"
+	Href               string             `json"href"`                // e.g., "/verifications/BZ25cVCn6wh6UZrfgFcF71RD"
+	Id                 string             `json"id"`                  // e.g., "BZ25cVCn6wh6UZrfgFcF71RD"
+	Links              *VerificationLinks `json:"links"`              // e.g., "bank_account" => "BA1RdDM12aF5N8WVA1kaewQZ"
+	Meta               map[string]string  `json:"meta"`
+	VerificationStatus string             `json:"verification_status"` // e.g., "pending"
+	CreatedAt          *time.Time         `json:"created_at"`
+	UpdatedAt          *time.Time         `json:"updated_at"`
+}
 
-	// e.g., 3
-	AttemptsRemaining int `json:"attempts_remaining"`
-
-	// e.g., "succeeded"
-	DepositStatus string `json:"deposit_status"`
-
-	// e.g., "/verifications/BZ25cVCn6wh6UZrfgFcF71RD"
-	Href string `json"href"`
-
-	// e.g., "BZ25cVCn6wh6UZrfgFcF71RD"
-	Id string `json"id"`
-
-	// e.g., "bank_account" => "BA1RdDM12aF5N8WVA1kaewQZ"
-	Links map[string]string `json:"links"`
-
-	Meta map[string]string `json:"meta"`
-
-	// e.g., "pending"
-	VerificationStatus string `json:"verification_status"`
-
-	CreatedAt *time.Time `json:"created_at"`
-	UpdatedAt *time.Time `json:"updated_at"`
+type VerificationLinks struct {
+	BankAccount string `json:"bank_account"`
 }
 
 type VerificationResponse struct {
-	Verifications []Verification         `json:"bank_account_verifications"`
-	Meta          map[string]interface{} `json:"meta,omitempty"`
-	Links         map[string]interface{} `json:"links,omitempty"`
+	Verifications []Verification             `json:"bank_account_verifications"`
+	Meta          map[string]interface{}     `json:"meta"`
+	Links         *VerificationResponseLinks `json:"links"`
+}
+
+type VerificationResponseLinks struct {
+	BankAccount string `json:"bank_account_verifications.bank_account"`
 }
 
 func (s *VerificationService) Create(accountId string) (*Verification, *http.Response, error) {

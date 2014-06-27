@@ -23,7 +23,7 @@ type Customer struct {
 	Email          string                 `json:"email,omitempty"`
 	Href           string                 `json:"href,omitempty"`
 	Id             string                 `json:"id,omitempty"`
-	Links          CustomerLinks          `json:"links,omitempty"`
+	Links          *CustomerLinks         `json:"links,omitempty"`
 	MerchantStatus string                 `json:"merchant_status,omitempty"`
 	Meta           map[string]interface{} `json:"meta,omitempty"`
 	SsnLast4       string                 `json:"ssn_last4,omitempty"`
@@ -32,8 +32,8 @@ type Customer struct {
 }
 
 type CustomerLinks struct {
-	Destination string `json:"destination,omitempty"`
-	Source      string `json:"source,omitempty"`
+	Destination string `json:"destination"`
+	Source      string `json:"source"`
 }
 
 // CustomerPage holds a paginated set of customers

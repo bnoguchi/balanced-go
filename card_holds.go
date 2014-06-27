@@ -33,8 +33,8 @@ type CardHold struct {
 }
 
 type CardHoldLinks struct {
-	Card  string `json:"card,omitempty"`
-	Debit string `json:"debit,omitempty"`
+	Card  string `json:"card"`
+	Debit string `json:"debit"`
 }
 
 // CardHoldPage holds a paginated set of card holds
@@ -45,8 +45,15 @@ type CardHoldPage struct {
 
 type CardHoldResponse struct {
 	CardHolds []CardHold             `json:"card_holds"`
-	Links     map[string]interface{} `json:"links"`
+	Links     *CardHoldResponseLinks `json:"links"`
 	Meta      map[string]interface{} `json:"meta,omitempty"`
+}
+
+type CardHoldResponseLinks struct {
+	Card   string `json:"card_holds.card"`
+	Debit  string `json:"card_holds.debit"`
+	Debits string `json:"card_holds.debits"`
+	Events string `json:"card_holds.events"`
 }
 
 func (s *CardHoldService) Create(cardId string, hold *CardHold) (*CardHold, *http.Response, error) {

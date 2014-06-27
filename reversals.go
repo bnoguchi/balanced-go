@@ -23,13 +23,13 @@ type Reversal struct {
 
 type ReversalLinks struct {
 	Credit string `json:"credit"`
-	Order  string `json:"order,omitempty"`
+	Order  string `json:"order"`
 }
 
 type ReversalResponse struct {
 	Reversals []Reversal             `json:"reversals"`
 	Links     *ReversalResponseLinks `json:"links"`
-	Meta      map[string]interface{} `json:"meta,omitempty"`
+	Meta      map[string]interface{} `json:"meta"`
 }
 
 type ReversalResponseLinks struct {

@@ -16,13 +16,17 @@ type Marketplace struct {
 	SupportPhoneNumber  string                 `json:"support_phone_number"`
 	InEscrow            int                    `json:"in_escrow"`
 	DomainUrl           string                 `json:"domain_url"`
-	Links               map[string]string      `json:"links"`
+	Links               *MarketplaceLinks      `json:"links"`
 	Href                string                 `json:"href"`
 	CreatedAt           *time.Time             `json:"created_at"`
 	UpdatedAt           *time.Time             `json:"updated_at"`
 	Production          bool                   `json:"production"`
 	Meta                map[string]interface{} `json:"meta"`
 	UnsettledFees       int                    `json:"unsettled_fees"`
+}
+
+type MarketplaceLinks struct {
+	Owner string `json:"owner_customer"`
 }
 
 type MarketplaceResponse struct {

@@ -55,7 +55,8 @@ type CardPage struct {
 	*PaginationParams
 }
 
-// Creates a card on the server.
+// Creates a card on the server. This method is not recommended in production
+// environments. Instead, use balanced.js to create cards.
 //
 // Fraud and Card declinations can be reduced if the following information is
 // supplied when tokenizing a card:

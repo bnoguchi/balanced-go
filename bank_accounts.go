@@ -26,7 +26,6 @@ type BankAccount struct {
 	Href        string `json:"href,omitempty"`
 	Id          string `json:"id,omitempty"`
 
-	// TODO map[string]interface{} or *BankAccountLinks?
 	Links     *BankAccountLinks      `json:"links,omitempty"`
 	Meta      map[string]interface{} `json:"meta,omitempty"`
 	CreatedAt *time.Time             `json:"created_at,omitempty"`
@@ -45,9 +44,17 @@ type BankAccountPage struct {
 }
 
 type BankAccountResponse struct {
-	BankAccounts []BankAccount          `json:"bank_accounts,omitempty"`
-	Meta         map[string]interface{} `json:"meta,omitempty"`
-	Links        *BankAccountLinks      `json:"links,omitempty"`
+	BankAccounts []BankAccount             `json:"bank_accounts"`
+	Meta         map[string]interface{}    `json:"meta"`
+	Links        *BankAccountResponseLinks `json:"links"`
+}
+
+type BankAccountResponseLinks struct {
+	Verification  string `json:"bank_accounts.bank_account_verification"`
+	Verifications string `json:"bank_accounts.bank_account_verifications"`
+	Credits       string `json:"bank_accounts.credits"`
+	Customer      string `json:"bank_accounts.customer"`
+	Debits        string `json:"bank_accounts.debits"`
 }
 
 func (s *BankAccountService) Create(account *BankAccount) (*BankAccount, *http.Response, error) {

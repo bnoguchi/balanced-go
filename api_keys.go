@@ -13,17 +13,21 @@ type ApiKeyService struct {
 type ApiKey struct {
 	Id        string            `json:"id"`
 	Href      string            `json:"href"`
-	Links     map[string]string `json:"links"`
+	Links     *ApiKeyLinks      `json:"links"`
 	Meta      map[string]string `json:"meta"`
 	Secret    string            `json:"secret"`
 	CreatedAt *time.Time        `json:"created_at"`
 }
 
+type ApiKeyLinks struct{}
+
 type ApiKeyResponse struct {
-	ApiKeys []ApiKey          `json:"api_keys"`
-	Links   map[string]string `json:"links"`
-	Meta    map[string]interface{}
+	ApiKeys []ApiKey               `json:"api_keys"`
+	Links   *ApiKeyResponseLinks   `json:"links"`
+	Meta    map[string]interface{} `json:"meta"`
 }
+
+type ApiKeyResponseLinks struct{}
 
 type ApiKeyPage struct {
 	ApiKeys []ApiKey

@@ -1475,3 +1475,22 @@ func (s *ReversalSuite) TestUpdate(c *C) {
 	c.Assert(err, IsNil)
 	c.Assert(updatedReversal.Description, Equals, "Ending reversal description")
 }
+
+type EventSuite struct{}
+
+var _ = Suite(&EventSuite{})
+
+func (s *EventSuite) TestList(c *C) {
+	eventPage, _, err := sharedClient.Event.List()
+	c.Assert(err, IsNil)
+	c.Assert(eventPage.Total, Not(Equals), 0)
+}
+
+func (s *EventSuite) TestFetch(c *C) {
+	eventPage, _, err := sharedClient.Event.List()
+	c.Assert(err, IsNil)
+	event := &eventPage.Events[0]
+	fetchedEvent, _, err := sharedClient.Event.Fetch(event.Id)
+	c.Assert(err, IsNil)
+	c.Assert(fetchedEvent.Id, Equals, event.Id)
+}

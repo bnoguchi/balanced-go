@@ -32,7 +32,10 @@ type Card struct {
 	IsVerified      bool              `json:"is_verified,omitempty"`
 	CreatedAt       *time.Time        `json:"created_at,omitempty"`
 	UpdatedAt       *time.Time        `json:"updated_at,omitempty"`
+}
 
+type CardLinks struct {
+	Customer string `json:"customer"`
 }
 
 type CardResponse struct {

@@ -22,8 +22,7 @@ type Callback struct {
 	Revision  string         `json:"revision,omitempty"`
 }
 
-type CallbackLinks struct {
-}
+type CallbackLinks struct{}
 
 type CallbackPage struct {
 	Callbacks []Callback
@@ -31,10 +30,12 @@ type CallbackPage struct {
 }
 
 type CallbackResponse struct {
-	Callbacks []Callback             `json:"callbacks,omitempty"`
-	Meta      map[string]interface{} `json:"meta,omitempty"`
-	Links     *CallbackLinks         `json:"links,omitempty"`
+	Callbacks []Callback             `json:"callbacks"`
+	Meta      map[string]interface{} `json:"meta"`
+	Links     *CallbackResponseLinks `json:"links"`
 }
+
+type CallbackResponseLinks struct{}
 
 func (s *CallbackService) Create(url, method string) (*Callback, *http.Response, error) {
 	callbackResponse := new(CallbackResponse)

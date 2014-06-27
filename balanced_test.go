@@ -321,7 +321,7 @@ func (s *CardSuite) TestAssociateWithCustomer(c *C) {
 	card := mustCreateCard(sharedClient)
 	defer deleteCard(sharedClient, card, c)
 
-	c.Assert(card.Links["customer"], Equals, "")
+	c.Assert(card.Links.Customer, Equals, "")
 
 	customer := mustCreateCustomer(sharedClient)
 	defer deleteCustomer(sharedClient, customer.Id, c)
@@ -329,7 +329,7 @@ func (s *CardSuite) TestAssociateWithCustomer(c *C) {
 	updatedCard, _, err := sharedClient.Card.AssociateWithCustomer(card.Id, customer.Id)
 
 	c.Assert(err, IsNil)
-	c.Assert(updatedCard.Links["customer"], Equals, customer.Id)
+	c.Assert(updatedCard.Links.Customer, Equals, customer.Id)
 }
 
 func (s *CardSuite) TestCharge(c *C) {
@@ -459,7 +459,7 @@ func (s *CustomerSuite) TestAssociateWithCard(c *C) {
 	card := mustCreateCard(sharedClient)
 	defer deleteCard(sharedClient, card, c)
 
-	c.Assert(card.Links["customer"], Equals, "")
+	c.Assert(card.Links.Customer, Equals, "")
 
 	customer := mustCreateCustomer(sharedClient)
 	defer deleteCustomer(sharedClient, customer.Id, c)
@@ -467,7 +467,7 @@ func (s *CustomerSuite) TestAssociateWithCard(c *C) {
 	updatedCard, _, err := sharedClient.Customer.AssociateWithCard(customer.Id, card.Id)
 
 	c.Assert(err, IsNil)
-	c.Assert(updatedCard.Links["customer"], Equals, customer.Id)
+	c.Assert(updatedCard.Links.Customer, Equals, customer.Id)
 }
 
 func (s *CustomerSuite) TestAssociateWithBankAccount(c *C) {
@@ -690,7 +690,7 @@ func (s *VerificationSuite) TestCreate(c *C) {
 	c.Assert(verif.AttemptsRemaining, Equals, 3)
 	c.Assert(verif.DepositStatus, Equals, Succeeded)
 	c.Assert(verif.Href, Equals, "/verifications/"+verif.Id)
-	c.Assert(verif.Links["bank_account"], Equals, account.Id)
+	c.Assert(verif.Links.BankAccount, Equals, account.Id)
 	c.Assert(verif.VerificationStatus, Equals, Pending)
 }
 

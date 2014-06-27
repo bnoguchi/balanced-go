@@ -33,7 +33,7 @@ type DisputeLinks struct {
 type DisputeResponse struct {
 	Disputes []Dispute              `json:"disputes"`
 	Links    *DisputeResponseLinks  `json:"links"`
-	Meta     map[string]interface{} `json:"meta,omitempty"`
+	Meta     map[string]interface{} `json:"meta"`
 }
 
 type DisputeResponseLinks struct {

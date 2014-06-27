@@ -151,6 +151,54 @@ func TestNewMarketplace(t *testing.T) {
 	}
 }
 
+type ApiKeySuite struct{}
+
+var _ = Suite(&ApiKeySuite{})
+
+func (s *ApiKeySuite) TestCreate(c *C) {
+	client := NewClient(nil, "")
+	apiKey, _, err := client.ApiKey.Create()
+	client = NewClient(nil, apiKey.Secret)
+	defer client.ApiKey.Delete(apiKey.Id)
+	c.Assert(err, IsNil)
+	c.Assert(apiKey.Href, Equals, fmt.Sprintf("/api_keys/%v", apiKey.Id))
+	c.Assert(apiKey.Secret, Not(Equals), "")
+}
+
+func (s *ApiKeySuite) TestFetch(c *C) {
+	client := NewClient(nil, "")
+	apiKey, _, err := client.ApiKey.Create()
+	client = NewClient(nil, apiKey.Secret)
+	defer client.ApiKey.Delete(apiKey.Id)
+	c.Assert(err, IsNil)
+	fetchedKey, _, err := client.ApiKey.Fetch(apiKey.Id)
+	c.Assert(fetchedKey.Id, Equals, apiKey.Id)
+	c.Assert(fetchedKey.Secret, Equals, apiKey.Secret)
+}
+
+func (s *ApiKeySuite) TestList(c *C) {
+	startingApiKeyPage, _, err := sharedClient.ApiKey.List()
+	c.Assert(err, IsNil)
+
+	apiKey, _, err := sharedClient.ApiKey.Create()
+	defer sharedClient.ApiKey.Delete(apiKey.Id)
+	c.Assert(err, IsNil)
+
+	apiKeyPage, _, err := sharedClient.ApiKey.List()
+	c.Assert(err, IsNil)
+	c.Assert(apiKeyPage.Total, Equals, 1+startingApiKeyPage.Total)
+}
+
+func (s *ApiKeySuite) TestDelete(c *C) {
+	client := NewClient(nil, "")
+	apiKey, _, err := client.ApiKey.Create()
+	c.Assert(err, IsNil)
+	client = NewClient(nil, apiKey.Secret)
+	didDelete, _, err := client.ApiKey.Delete(apiKey.Id)
+	c.Assert(err, IsNil)
+	c.Assert(didDelete, Equals, true)
+}
+
 type CardSuite struct{}
 
 var _ = Suite(&CardSuite{})

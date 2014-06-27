@@ -7,7 +7,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"net/http/httputil"
 	"net/url"
 )
 
@@ -98,14 +97,6 @@ func (c *Client) DELETE(urlPath string, query map[string]interface{}, reqBody in
 
 func (c *Client) buildAndDoRequest(method, urlPath string, query map[string]interface{}, reqBody interface{}, resObj interface{}) (*http.Response, error) {
 	req, err := c.NewRequest(method, urlPath, query, reqBody)
-	if l := len(urlPath); l >= 15 && urlPath[0:15] == "/bank_accounts/" && urlPath[(l-7):l] == "/debits" {
-		fmt.Println("#####")
-		out, err := httputil.DumpRequestOut(req, true)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Println(string(out))
-	}
 	if err != nil {
 		return nil, err
 	}

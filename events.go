@@ -11,14 +11,16 @@ type EventService struct {
 }
 
 type Event struct {
-	Id                string            `json:"id,omitempty"`
-	Href              string            `json:"href,omitempty"`
-	Type              string            `json:"type"`
-	OccurredAt        *time.Time        `json:"occurred_at"`
-	Links             map[string]string `json:"links"`
-	Entity            *EventEntity      `json:"entity"`
+	Id                string       `json:"id,omitempty"`
+	Href              string       `json:"href,omitempty"`
+	Type              string       `json:"type"`
+	OccurredAt        *time.Time   `json:"occurred_at"`
+	Links             *EventLinks  `json:"links"`
+	Entity            *EventEntity `json:"entity"`
 	*CallbackStatuses `json:"callback_statuses"`
 }
+
+type EventLinks struct{}
 
 type EventEntity struct {
 	Customers     []Customer     `json:"customers,omitempty"`

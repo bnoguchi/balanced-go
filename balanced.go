@@ -164,7 +164,7 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 
 	defer res.Body.Close()
 
-	err = CheckResponse(res)
+	err = checkResponse(res)
 	if err != nil {
 		return res, err
 	}
@@ -211,7 +211,7 @@ func (r *ErrorResponse) Error() string {
 		r.Response.StatusCode, errDescr)
 }
 
-func CheckResponse(res *http.Response) error {
+func checkResponse(res *http.Response) error {
 	if c := res.StatusCode; 200 <= c && c <= 299 {
 		return nil
 	}

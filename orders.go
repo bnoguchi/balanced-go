@@ -31,13 +31,13 @@ type Order struct {
 }
 
 type OrderLinks struct {
-	Merchant string `json:"merchant,omitempty"`
+	Merchant string `json:"merchant"`
 }
 
 type OrderResponse struct {
-	Orders []Order                `json:"orders,omitempty"`
-	Meta   map[string]interface{} `json:"meta,omitempty"`
-	Links  *OrderResponseLinks    `json:"links,omitempty"`
+	Orders []Order                `json:"orders"`
+	Meta   map[string]interface{} `json:"meta"`
+	Links  *OrderResponseLinks    `json:"links"`
 }
 
 type OrderResponseLinks struct {

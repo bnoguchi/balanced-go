@@ -11,39 +11,42 @@ type CreditService struct {
 }
 
 type Credit struct {
-	Amount int `json:"amount"`
-
-	AppearsOnStatementAs string `json:"appears_on_statement_as,omitempty"`
-
-	// The funding destination for this credit
-	Destination string `json:"destination,omitempty"`
-
-	// The order this credit is associated with
-	Order             string                 `json:"order,omitempty"`
-	Currency          string                 `json:"currency,omitempty"`
-	Description       string                 `json:"description,omitempty"`
-	FailureReason     string                 `json:"failure_reason,omitempty"`
-	FailureReasonCode string                 `json:"failure_reason_code,omitempty"`
-	Href              string                 `json:"href,omitempty"`
-	Id                string                 `json:"id,omitempty"`
-	Links             *CreditLinks           `json:"links,omitempty"`
-	Meta              map[string]interface{} `json:"meta,omitempty"`
-	Status            string                 `json:"status,omitempty"`
-	TransactionNumber string                 `json:"transaction_number,omitempty"`
-	CreatedAt         *time.Time             `json:"created_at,omitempty"`
-	UpdatedAt         *time.Time             `json:"updated_at,omitempty"`
+	Amount               int                    `json:"amount"`
+	AppearsOnStatementAs string                 `json:"appears_on_statement_as,omitempty"`
+	Destination          string                 `json:"destination,omitempty"` // The funding destination for this credit
+	Order                string                 `json:"order,omitempty"`
+	Currency             string                 `json:"currency,omitempty"`
+	Description          string                 `json:"description,omitempty"`
+	FailureReason        string                 `json:"failure_reason,omitempty"`
+	FailureReasonCode    string                 `json:"failure_reason_code,omitempty"`
+	Href                 string                 `json:"href,omitempty"`
+	Id                   string                 `json:"id,omitempty"`
+	Links                *CreditLinks           `json:"links,omitempty"`
+	Meta                 map[string]interface{} `json:"meta,omitempty"`
+	Status               string                 `json:"status,omitempty"`
+	TransactionNumber    string                 `json:"transaction_number,omitempty"`
+	CreatedAt            *time.Time             `json:"created_at,omitempty"`
+	UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
 }
 
 type CreditResponse struct {
 	Credits []Credit               `json:"credits"`
-	Links   map[string]interface{} `json:"links"`
-	Meta    map[string]interface{} `json:"meta,omitempty"`
+	Links   *CreditResponseLinks   `json:"links"`
+	Meta    map[string]interface{} `json:"meta"`
 }
 
 type CreditLinks struct {
-	Customer    string `json:"customer,omitempty"`
-	Destination string `json:"destination,omitempty"`
-	Order       string `json:"order,omitempty"`
+	Customer    string `json:"customer"`
+	Destination string `json:"destination"`
+	Order       string `json:"order"`
+}
+
+type CreditResponseLinks struct {
+	Customer    string `json:"credits.customer"`
+	Destination string `json:"credits.destination"`
+	Events      string `json:"credits.events"`
+	Order       string `json:"credits.order"`
+	Reversals   string `json:"credits.reversals"`
 }
 
 // CreditPage holds a paginated set of credits

@@ -44,14 +44,14 @@ type BankAccountPage struct {
 	*PaginationParams
 }
 
-type BankAccountResource struct {
+type BankAccountResponse struct {
 	BankAccounts []BankAccount          `json:"bank_accounts,omitempty"`
 	Meta         map[string]interface{} `json:"meta,omitempty"`
 	Links        *BankAccountLinks      `json:"links,omitempty"`
 }
 
 func (s *BankAccountService) Create(account *BankAccount) (*BankAccount, *http.Response, error) {
-	accountResponse := new(BankAccountResource)
+	accountResponse := new(BankAccountResponse)
 	httpResponse, err := s.client.POST("/bank_accounts", nil, account, accountResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -72,7 +72,7 @@ func (s *BankAccountService) Delete(accountId string) (bool, *http.Response, err
 
 func (s *BankAccountService) Fetch(accountId string) (*BankAccount, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v", accountId)
-	accountResponse := new(BankAccountResource)
+	accountResponse := new(BankAccountResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, accountResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -82,7 +82,7 @@ func (s *BankAccountService) Fetch(accountId string) (*BankAccount, *http.Respon
 
 func (s *BankAccountService) Update(accountId string, params map[string]interface{}) (*BankAccount, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v", accountId)
-	accountResponse := new(BankAccountResource)
+	accountResponse := new(BankAccountResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, accountResponse)
 
 	if err != nil {
@@ -98,7 +98,7 @@ func (s *BankAccountService) UpdateMeta(accountId string, meta map[string]interf
 func (s *BankAccountService) List(args ...interface{}) (*BankAccountPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	accountResponse := new(BankAccountResource)
+	accountResponse := new(BankAccountResponse)
 	httpResponse, err := s.client.GET("/bank_accounts", query, nil, accountResponse)
 	if err != nil {
 		return nil, httpResponse, err

@@ -30,14 +30,14 @@ type CallbackPage struct {
 	*PaginationParams
 }
 
-type CallbackResource struct {
+type CallbackResponse struct {
 	Callbacks []Callback             `json:"callbacks,omitempty"`
 	Meta      map[string]interface{} `json:"meta,omitempty"`
 	Links     *CallbackLinks         `json:"links,omitempty"`
 }
 
 func (s *CallbackService) Create(url, method string) (*Callback, *http.Response, error) {
-	callbackResponse := new(CallbackResource)
+	callbackResponse := new(CallbackResponse)
 	callback := &Callback{
 		Url:    url,
 		Method: method,
@@ -51,7 +51,7 @@ func (s *CallbackService) Create(url, method string) (*Callback, *http.Response,
 
 func (s *CallbackService) Fetch(callbackId string) (*Callback, *http.Response, error) {
 	path := fmt.Sprintf("/callbacks/%v", callbackId)
-	callbackResponse := new(CallbackResource)
+	callbackResponse := new(CallbackResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, callbackResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -73,7 +73,7 @@ func (s *CallbackService) Delete(callbackId string) (bool, *http.Response, error
 func (s *CallbackService) List(args ...interface{}) (*CallbackPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	callbackResponse := new(CallbackResource)
+	callbackResponse := new(CallbackResponse)
 	httpResponse, err := s.client.GET("/callbacks", query, nil, callbackResponse)
 	if err != nil {
 		return nil, httpResponse, err

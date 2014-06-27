@@ -42,13 +42,13 @@ type CustomerPage struct {
 	*PaginationParams
 }
 
-type CustomerResponse struct {
+type customerResponse struct {
 	Customers []Customer             `json:"customers"`
-	Links     CustomerResponseLinks  `json:"links"`
+	Links     customerResponseLinks  `json:"links"`
 	Meta      map[string]interface{} `json:"meta"`
 }
 
-type CustomerResponseLinks struct {
+type customerResponseLinks struct {
 	BankAccounts     string `json:"customers.bank_accounts"`
 	CardHolds        string `json:"customers.card_holds"`
 	Cards            string `json:"customers.cards"`
@@ -64,7 +64,7 @@ type CustomerResponseLinks struct {
 }
 
 func (s *CustomerService) Create(customer *Customer) (*Customer, *http.Response, error) {
-	customerResponse := new(CustomerResponse)
+	customerResponse := new(customerResponse)
 	httpResponse, err := s.client.POST("/customers", nil, customer, customerResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -86,7 +86,7 @@ func (s *CustomerService) Delete(customerId string) (bool, *http.Response, error
 func (s *CustomerService) List(args ...interface{}) (*CustomerPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	customerResponse := new(CustomerResponse)
+	customerResponse := new(customerResponse)
 	httpResponse, err := s.client.GET("/customers", query, nil, customerResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -99,7 +99,7 @@ func (s *CustomerService) List(args ...interface{}) (*CustomerPage, *http.Respon
 
 func (s *CustomerService) Fetch(customerId string) (*Customer, *http.Response, error) {
 	path := fmt.Sprintf("/customers/%v", customerId)
-	customerResponse := new(CustomerResponse)
+	customerResponse := new(customerResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, customerResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -109,7 +109,7 @@ func (s *CustomerService) Fetch(customerId string) (*Customer, *http.Response, e
 
 func (s *CustomerService) Update(customerId string, params map[string]interface{}) (*Customer, *http.Response, error) {
 	path := fmt.Sprintf("/customers/%v", customerId)
-	customerResponse := new(CustomerResponse)
+	customerResponse := new(customerResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, customerResponse)
 	if err != nil {
 		return nil, httpResponse, err

@@ -43,13 +43,13 @@ type CardHoldPage struct {
 	*PaginationParams
 }
 
-type CardHoldResponse struct {
+type cardHoldResponse struct {
 	CardHolds []CardHold             `json:"card_holds"`
-	Links     *CardHoldResponseLinks `json:"links"`
+	Links     *cardHoldResponseLinks `json:"links"`
 	Meta      map[string]interface{} `json:"meta,omitempty"`
 }
 
-type CardHoldResponseLinks struct {
+type cardHoldResponseLinks struct {
 	Card   string `json:"card_holds.card"`
 	Debit  string `json:"card_holds.debit"`
 	Debits string `json:"card_holds.debits"`
@@ -58,7 +58,7 @@ type CardHoldResponseLinks struct {
 
 func (s *CardHoldService) Create(cardId string, hold *CardHold) (*CardHold, *http.Response, error) {
 	path := fmt.Sprintf("/cards/%v/card_holds", cardId)
-	holdResponse := new(CardHoldResponse)
+	holdResponse := new(cardHoldResponse)
 	httpResponse, err := s.client.POST(path, nil, hold, holdResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -68,7 +68,7 @@ func (s *CardHoldService) Create(cardId string, hold *CardHold) (*CardHold, *htt
 
 func (s *CardHoldService) Fetch(holdId string) (*CardHold, *http.Response, error) {
 	path := fmt.Sprintf("/card_holds/%v", holdId)
-	holdResponse := new(CardHoldResponse)
+	holdResponse := new(cardHoldResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, holdResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -80,7 +80,7 @@ func (s *CardHoldService) Fetch(holdId string) (*CardHold, *http.Response, error
 func (s *CardHoldService) List(args ...interface{}) (*CardHoldPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	holdResponse := new(CardHoldResponse)
+	holdResponse := new(cardHoldResponse)
 	httpResponse, err := s.client.GET("/card_holds", query, nil, holdResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -93,7 +93,7 @@ func (s *CardHoldService) List(args ...interface{}) (*CardHoldPage, *http.Respon
 
 func (s *CardHoldService) Update(holdId string, params map[string]interface{}) (*CardHold, *http.Response, error) {
 	path := fmt.Sprintf("/card_holds/%v", holdId)
-	holdResponse := new(CardHoldResponse)
+	holdResponse := new(cardHoldResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, holdResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -105,7 +105,7 @@ func (s *CardHoldService) Update(holdId string, params map[string]interface{}) (
 // to the hold amount may be captured.
 func (s *CardHoldService) Capture(holdId string, debit *Debit) (*Debit, *http.Response, error) {
 	path := fmt.Sprintf("/card_holds/%v/debits", holdId)
-	debitResponse := new(DebitResponse)
+	debitResponse := new(debitResponse)
 	httpResponse, err := s.client.POST(path, nil, debit, debitResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -119,7 +119,7 @@ func (s *CardHoldService) Void(holdId string) (*CardHold, *http.Response, error)
 	reqBody := map[string]interface{}{
 		"is_void": true,
 	}
-	holdResponse := new(CardHoldResponse)
+	holdResponse := new(cardHoldResponse)
 	httpResponse, err := s.client.PUT(path, nil, reqBody, holdResponse)
 	if err != nil {
 		return nil, httpResponse, err

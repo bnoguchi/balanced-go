@@ -21,13 +21,13 @@ type ApiKey struct {
 
 type ApiKeyLinks struct{}
 
-type ApiKeyResponse struct {
+type apiKeyResponse struct {
 	ApiKeys []ApiKey               `json:"api_keys"`
-	Links   *ApiKeyResponseLinks   `json:"links"`
+	Links   *apiKeyResponseLinks   `json:"links"`
 	Meta    map[string]interface{} `json:"meta"`
 }
 
-type ApiKeyResponseLinks struct{}
+type apiKeyResponseLinks struct{}
 
 type ApiKeyPage struct {
 	ApiKeys []ApiKey
@@ -35,7 +35,7 @@ type ApiKeyPage struct {
 }
 
 func (s *ApiKeyService) Create() (*ApiKey, *http.Response, error) {
-	apiKeyResponse := new(ApiKeyResponse)
+	apiKeyResponse := new(apiKeyResponse)
 	httpResponse, err := s.client.POST("/api_keys", nil, nil, apiKeyResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -45,7 +45,7 @@ func (s *ApiKeyService) Create() (*ApiKey, *http.Response, error) {
 
 func (s *ApiKeyService) Fetch(id string) (*ApiKey, *http.Response, error) {
 	path := fmt.Sprintf("/api_keys/%v", id)
-	apiKeyResponse := new(ApiKeyResponse)
+	apiKeyResponse := new(apiKeyResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, apiKeyResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -55,7 +55,7 @@ func (s *ApiKeyService) Fetch(id string) (*ApiKey, *http.Response, error) {
 
 func (s *ApiKeyService) List(args ...interface{}) (*ApiKeyPage, *http.Response, error) {
 	query := paginatedArgsToQuery(args)
-	apiKeyResponse := new(ApiKeyResponse)
+	apiKeyResponse := new(apiKeyResponse)
 	httpResponse, err := s.client.GET("/api_keys", query, nil, apiKeyResponse)
 	if err != nil {
 		return nil, httpResponse, err

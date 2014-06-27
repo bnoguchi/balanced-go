@@ -30,13 +30,13 @@ type DisputeLinks struct {
 	Transaction string `json:"transaction"`
 }
 
-type DisputeResponse struct {
+type disputeResponse struct {
 	Disputes []Dispute              `json:"disputes"`
-	Links    *DisputeResponseLinks  `json:"links"`
+	Links    *disputeResponseLinks  `json:"links"`
 	Meta     map[string]interface{} `json:"meta"`
 }
 
-type DisputeResponseLinks struct {
+type disputeResponseLinks struct {
 	Events     string `json:"disputes.events"`
 	Transation string `json:"disputes.transaction"`
 }
@@ -48,7 +48,7 @@ type DisputePage struct {
 
 func (s *DisputeService) Fetch(disputeId string) (*Dispute, *http.Response, error) {
 	path := fmt.Sprintf("/disputes/%v", disputeId)
-	disputeResponse := new(DisputeResponse)
+	disputeResponse := new(disputeResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, disputeResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -59,7 +59,7 @@ func (s *DisputeService) Fetch(disputeId string) (*Dispute, *http.Response, erro
 func (s *DisputeService) List(args ...interface{}) (*DisputePage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	disputeResponse := new(DisputeResponse)
+	disputeResponse := new(disputeResponse)
 	httpResponse, err := s.client.GET("/disputes", query, nil, disputeResponse)
 	if err != nil {
 		return nil, httpResponse, err

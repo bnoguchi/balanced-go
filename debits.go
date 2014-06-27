@@ -37,15 +37,15 @@ type DebitLinks struct {
 	Source   string `json:"source"`
 }
 
-type DebitResponse struct {
+type debitResponse struct {
 	Debits []Debit                `json:"debits"`
-	Links  *DebitResponseLinks    `json:"links,omitempty"`
+	Links  *debitResponseLinks    `json:"links,omitempty"`
 	Meta   map[string]interface{} `json:"meta,omitempty"`
 }
 
-type DebitRequest DebitResponse
+type DebitRequest debitResponse
 
-type DebitResponseLinks struct {
+type debitResponseLinks struct {
 	Customer string `json:"debits.customer"`
 	Dispute  string `json:"debits.dispute"`
 	Events   string `json:"debits.events"`
@@ -61,7 +61,7 @@ type DebitPage struct {
 
 func (s *DebitService) Fetch(debitId string) (*Debit, *http.Response, error) {
 	path := fmt.Sprintf("/debits/%v", debitId)
-	debitResponse := new(DebitResponse)
+	debitResponse := new(debitResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, debitResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -72,7 +72,7 @@ func (s *DebitService) Fetch(debitId string) (*Debit, *http.Response, error) {
 func (s *DebitService) List(args ...interface{}) (*DebitPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	debitResponse := new(DebitResponse)
+	debitResponse := new(debitResponse)
 	httpResponse, err := s.client.GET("/debits", query, nil, debitResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -85,7 +85,7 @@ func (s *DebitService) List(args ...interface{}) (*DebitPage, *http.Response, er
 
 func (s *DebitService) Update(debitId string, params map[string]interface{}) (*Debit, *http.Response, error) {
 	path := fmt.Sprintf("/debits/%v", debitId)
-	debitResponse := new(DebitResponse)
+	debitResponse := new(debitResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, debitResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -95,7 +95,7 @@ func (s *DebitService) Update(debitId string, params map[string]interface{}) (*D
 
 func (s *DebitService) Refund(debitId string, refund *Refund) (*Refund, *http.Response, error) {
 	path := fmt.Sprintf("/debits/%v/refunds", debitId)
-	refundResponse := new(RefundResponse)
+	refundResponse := new(refundResponse)
 	httpResponse, err := s.client.POST(path, nil, refund, refundResponse)
 	if err != nil {
 		return nil, httpResponse, err

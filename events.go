@@ -43,13 +43,13 @@ type CallbackStatuses struct {
 	Succeeded int `json:"succeeded"`
 }
 
-type EventResponse struct {
+type eventResponse struct {
 	Events []Event                `json:"events"`
-	Links  *EventResponseLinks    `json:"links"`
+	Links  *eventResponseLinks    `json:"links"`
 	Meta   map[string]interface{} `json:"meta"`
 }
 
-type EventResponseLinks struct {
+type eventResponseLinks struct {
 	Callbacks string `json:"events.callbacks"` // "/events/{events.self}/callbacks"
 }
 
@@ -60,7 +60,7 @@ type EventPage struct {
 
 func (s *EventService) Fetch(eventId string) (*Event, *http.Response, error) {
 	path := fmt.Sprintf("/events/%v", eventId)
-	eventResponse := new(EventResponse)
+	eventResponse := new(eventResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, eventResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -71,7 +71,7 @@ func (s *EventService) Fetch(eventId string) (*Event, *http.Response, error) {
 func (s *EventService) List(args ...interface{}) (*EventPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	eventResponse := new(EventResponse)
+	eventResponse := new(eventResponse)
 	httpResponse, err := s.client.GET("/events", query, nil, eventResponse)
 	if err != nil {
 		return nil, httpResponse, err

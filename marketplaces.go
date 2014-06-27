@@ -29,12 +29,12 @@ type MarketplaceLinks struct {
 	Owner string `json:"owner_customer"`
 }
 
-type MarketplaceResponse struct {
+type marketplaceResponse struct {
 	Marketplaces []Marketplace             `json:"marketplaces"`
-	Links        *MarketplaceResponseLinks `json:"links"`
+	Links        *marketplaceResponseLinks `json:"links"`
 }
 
-type MarketplaceResponseLinks struct {
+type marketplaceResponseLinks struct {
 	Reversals     string `json:"marketplaces.reversals"`
 	Cards         string `json:"marketplaces.cards"`
 	Refunds       string `json:"marketplaces.refunds"`
@@ -50,7 +50,7 @@ type MarketplaceResponseLinks struct {
 }
 
 func (s *MarketplaceService) Create() (*Marketplace, *http.Response, error) {
-	marketplaceResponse := new(MarketplaceResponse)
+	marketplaceResponse := new(marketplaceResponse)
 	httpResponse, err := s.client.POST("/marketplaces", nil, nil, marketplaceResponse)
 	if err != nil {
 		return nil, httpResponse, err

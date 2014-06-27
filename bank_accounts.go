@@ -43,13 +43,13 @@ type BankAccountPage struct {
 	*PaginationParams
 }
 
-type BankAccountResponse struct {
+type bankAccountResponse struct {
 	BankAccounts []BankAccount             `json:"bank_accounts"`
 	Meta         map[string]interface{}    `json:"meta"`
-	Links        *BankAccountResponseLinks `json:"links"`
+	Links        *bankAccountResponseLinks `json:"links"`
 }
 
-type BankAccountResponseLinks struct {
+type bankAccountResponseLinks struct {
 	Verification  string `json:"bank_accounts.bank_account_verification"`
 	Verifications string `json:"bank_accounts.bank_account_verifications"`
 	Credits       string `json:"bank_accounts.credits"`
@@ -58,7 +58,7 @@ type BankAccountResponseLinks struct {
 }
 
 func (s *BankAccountService) Create(account *BankAccount) (*BankAccount, *http.Response, error) {
-	accountResponse := new(BankAccountResponse)
+	accountResponse := new(bankAccountResponse)
 	httpResponse, err := s.client.POST("/bank_accounts", nil, account, accountResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -79,7 +79,7 @@ func (s *BankAccountService) Delete(accountId string) (bool, *http.Response, err
 
 func (s *BankAccountService) Fetch(accountId string) (*BankAccount, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v", accountId)
-	accountResponse := new(BankAccountResponse)
+	accountResponse := new(bankAccountResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, accountResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -89,7 +89,7 @@ func (s *BankAccountService) Fetch(accountId string) (*BankAccount, *http.Respon
 
 func (s *BankAccountService) Update(accountId string, params map[string]interface{}) (*BankAccount, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v", accountId)
-	accountResponse := new(BankAccountResponse)
+	accountResponse := new(bankAccountResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, accountResponse)
 
 	if err != nil {
@@ -105,7 +105,7 @@ func (s *BankAccountService) UpdateMeta(accountId string, meta map[string]interf
 func (s *BankAccountService) List(args ...interface{}) (*BankAccountPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	accountResponse := new(BankAccountResponse)
+	accountResponse := new(bankAccountResponse)
 	httpResponse, err := s.client.GET("/bank_accounts", query, nil, accountResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -124,7 +124,7 @@ func (s *BankAccountService) AssociateWithCustomer(accountId string, customerId 
 
 func (s *BankAccountService) Debit(accountId string, debit *Debit) (*Debit, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v/debits", accountId)
-	debitResponse := new(DebitResponse)
+	debitResponse := new(debitResponse)
 	httpResponse, err := s.client.POST(path, nil, &DebitRequest{
 		Debits: []Debit{*debit},
 	}, debitResponse)
@@ -136,7 +136,7 @@ func (s *BankAccountService) Debit(accountId string, debit *Debit) (*Debit, *htt
 
 func (s *BankAccountService) Credit(bankAccountId string, credit *Credit) (*Credit, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v/credits", bankAccountId)
-	creditResponse := new(CreditResponse)
+	creditResponse := new(creditResponse)
 	httpResponse, err := s.client.POST(path, nil, credit, creditResponse)
 	if err != nil {
 		return nil, httpResponse, err

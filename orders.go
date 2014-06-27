@@ -34,13 +34,13 @@ type OrderLinks struct {
 	Merchant string `json:"merchant"`
 }
 
-type OrderResponse struct {
+type orderResponse struct {
 	Orders []Order                `json:"orders"`
 	Meta   map[string]interface{} `json:"meta"`
-	Links  *OrderResponseLinks    `json:"links"`
+	Links  *orderResponseLinks    `json:"links"`
 }
 
-type OrderResponseLinks struct {
+type orderResponseLinks struct {
 	Buyers    string `json:"orders.buyers"`
 	Credits   string `json:"orders.credits"`
 	Debits    string `json:"orders.debits"`
@@ -56,7 +56,7 @@ type OrderPage struct {
 
 func (s *OrderService) Create(customerId string, order *Order) (*Order, *http.Response, error) {
 	path := fmt.Sprintf("/customers/%v/orders", customerId)
-	orderResponse := new(OrderResponse)
+	orderResponse := new(orderResponse)
 	httpResponse, err := s.client.POST(path, nil, order, orderResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -66,7 +66,7 @@ func (s *OrderService) Create(customerId string, order *Order) (*Order, *http.Re
 
 func (s *OrderService) Fetch(orderId string) (*Order, *http.Response, error) {
 	path := fmt.Sprintf("/orders/%v", orderId)
-	orderResponse := new(OrderResponse)
+	orderResponse := new(orderResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, orderResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -77,7 +77,7 @@ func (s *OrderService) Fetch(orderId string) (*Order, *http.Response, error) {
 func (s *OrderService) List(args ...interface{}) (*OrderPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	orderResponse := new(OrderResponse)
+	orderResponse := new(orderResponse)
 	httpResponse, err := s.client.GET("/orders", query, nil, orderResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -90,7 +90,7 @@ func (s *OrderService) List(args ...interface{}) (*OrderPage, *http.Response, er
 
 func (s *OrderService) Update(orderId string, params map[string]interface{}) (*Order, *http.Response, error) {
 	path := fmt.Sprintf("/orders/%v", orderId)
-	orderResponse := new(OrderResponse)
+	orderResponse := new(orderResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, orderResponse)
 	if err != nil {
 		return nil, httpResponse, err

@@ -32,13 +32,13 @@ type RefundLinks struct {
 	Order   string `json:"order"`
 }
 
-type RefundResponse struct {
+type refundResponse struct {
 	Refunds []Refund               `json:"refunds"`
-	Links   *RefundResponseLinks   `json:"links"`
+	Links   *refundResponseLinks   `json:"links"`
 	Meta    map[string]interface{} `json:"meta"`
 }
 
-type RefundResponseLinks struct {
+type refundResponseLinks struct {
 	Debit   string `json:"refunds.debit"`
 	Dispute string `json:"refunds.dispute"`
 	Events  string `json:"refunds.events"`
@@ -52,7 +52,7 @@ type RefundPage struct {
 
 func (s *RefundService) Fetch(refundId string) (*Refund, *http.Response, error) {
 	path := fmt.Sprintf("/refunds/%v", refundId)
-	refundResponse := new(RefundResponse)
+	refundResponse := new(refundResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, refundResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -63,7 +63,7 @@ func (s *RefundService) Fetch(refundId string) (*Refund, *http.Response, error) 
 func (s *RefundService) List(args ...interface{}) (*RefundPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	refundResponse := new(RefundResponse)
+	refundResponse := new(refundResponse)
 	httpResponse, err := s.client.GET("/refunds", query, nil, refundResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -76,7 +76,7 @@ func (s *RefundService) List(args ...interface{}) (*RefundPage, *http.Response, 
 
 func (s *RefundService) Update(refundId string, params map[string]interface{}) (*Refund, *http.Response, error) {
 	path := fmt.Sprintf("/refunds/%v", refundId)
-	refundResponse := new(RefundResponse)
+	refundResponse := new(refundResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, refundResponse)
 	if err != nil {
 		return nil, httpResponse, err

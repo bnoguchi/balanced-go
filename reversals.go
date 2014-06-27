@@ -26,13 +26,13 @@ type ReversalLinks struct {
 	Order  string `json:"order"`
 }
 
-type ReversalResponse struct {
+type reversalResponse struct {
 	Reversals []Reversal             `json:"reversals"`
-	Links     *ReversalResponseLinks `json:"links"`
+	Links     *reversalResponseLinks `json:"links"`
 	Meta      map[string]interface{} `json:"meta"`
 }
 
-type ReversalResponseLinks struct {
+type reversalResponseLinks struct {
 	Credit string `json:"reversals.credit"`
 	Events string `json:"reversals.events"`
 	Order  string `json:"reversal.order"`
@@ -45,7 +45,7 @@ type ReversalPage struct {
 
 func (s *ReversalService) Create(creditId string, reversal *Reversal) (*Reversal, *http.Response, error) {
 	path := fmt.Sprintf("/credits/%v/reversals", creditId)
-	reversalResponse := new(ReversalResponse)
+	reversalResponse := new(reversalResponse)
 	httpResponse, err := s.client.POST(path, nil, reversal, reversalResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -55,7 +55,7 @@ func (s *ReversalService) Create(creditId string, reversal *Reversal) (*Reversal
 
 func (s *ReversalService) Fetch(reversalId string) (*Reversal, *http.Response, error) {
 	path := fmt.Sprintf("/reversals/%v", reversalId)
-	reversalResponse := new(ReversalResponse)
+	reversalResponse := new(reversalResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, reversalResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -66,7 +66,7 @@ func (s *ReversalService) Fetch(reversalId string) (*Reversal, *http.Response, e
 func (s *ReversalService) List(args ...interface{}) (*ReversalPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	reversalResponse := new(ReversalResponse)
+	reversalResponse := new(reversalResponse)
 	httpResponse, err := s.client.GET("/reversals", query, nil, reversalResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -79,7 +79,7 @@ func (s *ReversalService) List(args ...interface{}) (*ReversalPage, *http.Respon
 
 func (s *ReversalService) Update(reversalId string, params map[string]interface{}) (*Reversal, *http.Response, error) {
 	path := fmt.Sprintf("/reversals/%v", reversalId)
-	reversalResponse := new(ReversalResponse)
+	reversalResponse := new(reversalResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, reversalResponse)
 	if err != nil {
 		return nil, httpResponse, err

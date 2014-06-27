@@ -29,9 +29,9 @@ type Credit struct {
 	UpdatedAt            *time.Time             `json:"updated_at,omitempty"`
 }
 
-type CreditResponse struct {
+type creditResponse struct {
 	Credits []Credit               `json:"credits"`
-	Links   *CreditResponseLinks   `json:"links"`
+	Links   *creditResponseLinks   `json:"links"`
 	Meta    map[string]interface{} `json:"meta"`
 }
 
@@ -41,7 +41,7 @@ type CreditLinks struct {
 	Order       string `json:"order"`
 }
 
-type CreditResponseLinks struct {
+type creditResponseLinks struct {
 	Customer    string `json:"credits.customer"`
 	Destination string `json:"credits.destination"`
 	Events      string `json:"credits.events"`
@@ -72,7 +72,7 @@ func (s *CreditService) CreateForOrder(bankAccountId, orderId string, credit *Cr
 
 func (s *CreditService) Fetch(creditId string) (*Credit, *http.Response, error) {
 	path := fmt.Sprintf("/credits/%v", creditId)
-	creditResponse := new(CreditResponse)
+	creditResponse := new(creditResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, creditResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -83,7 +83,7 @@ func (s *CreditService) Fetch(creditId string) (*Credit, *http.Response, error) 
 func (s *CreditService) List(args ...interface{}) (*CreditPage, *http.Response, error) {
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
-	creditResponse := new(CreditResponse)
+	creditResponse := new(creditResponse)
 	httpResponse, err := s.client.GET("/credits", query, nil, creditResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -98,7 +98,7 @@ func (s *CreditService) ListForBankAccount(accountId string, args ...interface{}
 	// Turns args into a map[string]int with "offset" and "limit" keys
 	query := paginatedArgsToQuery(args)
 	path := fmt.Sprintf("/bank_accounts/%v/credits", accountId)
-	creditResponse := new(CreditResponse)
+	creditResponse := new(creditResponse)
 	httpResponse, err := s.client.GET(path, query, nil, creditResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -111,7 +111,7 @@ func (s *CreditService) ListForBankAccount(accountId string, args ...interface{}
 
 func (s *CreditService) Update(creditId string, params map[string]interface{}) (*Credit, *http.Response, error) {
 	path := fmt.Sprintf("/credits/%v", creditId)
-	creditResponse := new(CreditResponse)
+	creditResponse := new(creditResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, creditResponse)
 	if err != nil {
 		return nil, httpResponse, err

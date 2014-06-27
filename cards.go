@@ -38,13 +38,13 @@ type CardLinks struct {
 	Customer string `json:"customer"`
 }
 
-type CardResponse struct {
+type cardResponse struct {
 	Cards []Card                 `json:"cards"`
-	Links *CardResponseLinks     `json:"links"`
+	Links *cardResponseLinks     `json:"links"`
 	Meta  map[string]interface{} `json:"meta"`
 }
 
-type CardResponseLinks struct {
+type cardResponseLinks struct {
 	CardHolds string `json:"cards.card_holds"`
 	Customers string `json:"cards.customers"`
 	Debits    string `json:"cards.debits"`
@@ -64,7 +64,7 @@ type CardPage struct {
 // PostalCode
 // CountryCode (Country code, ISO 3166-1 alpha-3)
 func (s *CardService) Create(card *Card) (*Card, *http.Response, error) {
-	cardResponse := new(CardResponse)
+	cardResponse := new(cardResponse)
 	httpResponse, err := s.client.POST("/cards", nil, card, cardResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -85,7 +85,7 @@ func (s *CardService) Delete(cardId string) (bool, *http.Response, error) {
 
 func (s *CardService) Fetch(cardId string) (*Card, *http.Response, error) {
 	path := fmt.Sprintf("/cards/%v", cardId)
-	cardResponse := new(CardResponse)
+	cardResponse := new(cardResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, cardResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -95,7 +95,7 @@ func (s *CardService) Fetch(cardId string) (*Card, *http.Response, error) {
 
 func (s *CardService) List(args ...interface{}) (*CardPage, *http.Response, error) {
 	query := paginatedArgsToQuery(args)
-	cardResponse := new(CardResponse)
+	cardResponse := new(cardResponse)
 	httpResponse, err := s.client.GET("/cards", query, nil, cardResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -108,7 +108,7 @@ func (s *CardService) List(args ...interface{}) (*CardPage, *http.Response, erro
 
 func (s *CardService) Update(cardId string, params map[string]interface{}) (*Card, *http.Response, error) {
 	path := fmt.Sprintf("/cards/%v", cardId)
-	cardResponse := new(CardResponse)
+	cardResponse := new(cardResponse)
 	httpResponse, err := s.client.PUT(path, nil, params, cardResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -124,7 +124,7 @@ func (s *CardService) AssociateWithCustomer(cardId, customerId string) (*Card, *
 
 func (s *CardService) Charge(cardId string, debit *Debit) (*Debit, *http.Response, error) {
 	path := fmt.Sprintf("/cards/%v/debits", cardId)
-	debitResponse := new(DebitResponse)
+	debitResponse := new(debitResponse)
 	httpResponse, err := s.client.POST(path, nil, debit, debitResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -137,7 +137,7 @@ func (s *CardService) Credit(cardId string, credit *Credit) (*Credit, *http.Resp
 		return nil, nil, fmt.Errorf("Cannot credit more than $2,500 to a card, but tried crediting %.2f", float32(credit.Amount)/100)
 	}
 	path := fmt.Sprintf("/cards/%v/credits", cardId)
-	creditResponse := new(CreditResponse)
+	creditResponse := new(creditResponse)
 	httpResponse, err := s.client.POST(path, nil, credit, creditResponse)
 	if err != nil {
 		return nil, httpResponse, err

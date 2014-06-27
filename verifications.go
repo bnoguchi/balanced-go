@@ -41,19 +41,19 @@ type VerificationLinks struct {
 	BankAccount string `json:"bank_account"`
 }
 
-type VerificationResponse struct {
+type verificationResponse struct {
 	Verifications []Verification             `json:"bank_account_verifications"`
 	Meta          map[string]interface{}     `json:"meta"`
-	Links         *VerificationResponseLinks `json:"links"`
+	Links         *verificationResponseLinks `json:"links"`
 }
 
-type VerificationResponseLinks struct {
+type verificationResponseLinks struct {
 	BankAccount string `json:"bank_account_verifications.bank_account"`
 }
 
 func (s *VerificationService) Create(accountId string) (*Verification, *http.Response, error) {
 	path := fmt.Sprintf("/bank_accounts/%v/verifications", accountId)
-	verifResponse := new(VerificationResponse)
+	verifResponse := new(verificationResponse)
 	httpResponse, err := s.client.POST(path, nil, nil, verifResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -64,7 +64,7 @@ func (s *VerificationService) Create(accountId string) (*Verification, *http.Res
 // Fetches the verification for a bank account
 func (s *VerificationService) Fetch(verificationId string) (*Verification, *http.Response, error) {
 	path := fmt.Sprintf("/verifications/%v", verificationId)
-	verifResponse := new(VerificationResponse)
+	verifResponse := new(verificationResponse)
 	httpResponse, err := s.client.GET(path, nil, nil, verifResponse)
 	if err != nil {
 		return nil, httpResponse, err
@@ -81,7 +81,7 @@ type ConfirmationAmounts struct {
 
 func (s *VerificationService) Confirm(verificationId string, amount1 int, amount2 int) (*Verification, *http.Response, error) {
 	path := fmt.Sprintf("/verifications/%v", verificationId)
-	verifResponse := new(VerificationResponse)
+	verifResponse := new(verificationResponse)
 	httpResponse, err := s.client.PUT(path, nil, &ConfirmationAmounts{
 		Amount1: amount1,
 		Amount2: amount2,
